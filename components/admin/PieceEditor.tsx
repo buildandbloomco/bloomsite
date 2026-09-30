@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { PIECE_TYPES, type LibraryPiece } from "@/lib/wellness-types";
 import type { Prompt } from "@/lib/course-types";
+import Uploader from "./Uploader";
 
 const rid = () => Math.random().toString(36).slice(2, 10);
 
@@ -66,16 +67,31 @@ export default function PieceEditor({ initial, collections }: { initial: Library
         </div>
       </section>
 
-      {p.type === "audio" && (
+      {(p.type === "audio" || p.audioUrl) && (
         <section className="panel">
           <h3>Recording</h3>
+          <Uploader accept="audio/*" label="Upload audio (MP3 or M4A)" onDone={(url) => up((d) => { d.audioUrl = url; if (/audio/i.test(d.adminNote)) d.adminNote = ""; })} />
           <label>
-            Audio link <span className="hint">Paste an MP3 link, or a Google Drive or Dropbox share link (set sharing to &ldquo;Anyone with the link&rdquo;)</span>
-            <input type="url" placeholder="https://drive.google.com/file/d/..." value={p.audioUrl} onChange={(e) => up((d) => void (d.audioUrl = e.target.value))} />
+            Or paste a link <span className="hint">MP3 link, or a Google Drive or Dropbox share link set to &ldquo;Anyone with the link&rdquo;</span>
+            <input type="url" placeholder="https://..." value={p.audioUrl} onChange={(e) => up((d) => void (d.audioUrl = e.target.value))} />
           </label>
-          <p className="small muted" style={{ margin: 0 }}>Until there is a link, members can read along with the script below. Pauses in [brackets] are hidden from members and are cues for your narrator.</p>
+          {p.audioUrl && <audio controls preload="none" src={p.audioUrl} style={{ width: "100%" }} />}
+          <p className="small muted" style={{ margin: 0 }}>Until there is a recording, members can read along with the script below. Pauses in [brackets] are hidden from members and are cues for your narrator.</p>
         </section>
       )}
+
+      <section className="panel">
+        <h3>Video</h3>
+        <p className="small muted" style={{ margin: 0 }}>{p.type === "soundscape" ? "Upload the soundscape video. It loops for members until they stop it." : "Optional. Add a video to any piece, like a welcome message or a guided practice."}</p>
+        <Uploader accept="video/mp4,video/quicktime,video/webm" label={p.videoUrl ? "Replace video" : "Upload video (MP4)"} onDone={(url) => up((d) => { d.videoUrl = url; if (/^Upload .*Video section/.test(d.adminNote)) d.adminNote = ""; })} />
+        <label>Or paste a link <span className="hint">a direct MP4 link</span><input type="url" placeholder="https://..." value={p.videoUrl ?? ""} onChange={(e) => up((d) => void (d.videoUrl = e.target.value))} /></label>
+        {p.videoUrl && (
+          <>
+            <video controls preload="metadata" src={p.videoUrl} style={{ width: "100%", maxHeight: 360, borderRadius: 12, background: "#000" }} />
+            <button type="button" className="linkbtn danger small" style={{ alignSelf: "flex-start" }} onClick={() => up((d) => void (d.videoUrl = ""))}>Remove video</button>
+          </>
+        )}
+      </section>
 
       <section className="panel">
         <h3>{p.type === "audio" ? "Script" : "The piece"}</h3>

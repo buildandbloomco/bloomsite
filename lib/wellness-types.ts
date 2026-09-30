@@ -1,9 +1,10 @@
 import type { Prompt } from "./course-types";
 
-export type PieceType = "audio" | "journal" | "tool" | "reading" | "team";
+export type PieceType = "audio" | "soundscape" | "journal" | "tool" | "reading" | "team";
 
 export const PIECE_TYPES: { id: PieceType; label: string; plural: string }[] = [
   { id: "audio", label: "Guided audio", plural: "Guided audio" },
+  { id: "soundscape", label: "Soundscape", plural: "Soundscapes" },
   { id: "journal", label: "Journaling", plural: "Journaling" },
   { id: "tool", label: "Coping tool", plural: "Coping tools" },
   { id: "reading", label: "Reading", plural: "Readings" },
@@ -28,6 +29,8 @@ export interface LibraryPiece {
   prompts: Prompt[];
   /** Audio: a link to the recording (MP3, Dropbox, or Google Drive share link) */
   audioUrl: string;
+  /** Video: an uploaded file or a link (MP4). Soundscapes loop automatically. */
+  videoUrl: string;
   /** Admin-only note, e.g. "Script approved, waiting on narrator" */
   adminNote: string;
   teamOnly: boolean;

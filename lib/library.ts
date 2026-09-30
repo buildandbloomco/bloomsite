@@ -12,17 +12,28 @@ const K = {
   answers: "bb:lib:answers",
   done: "bb:lib:done",
   mig: "bb:mig:lib1",
+  mig2: "bb:mig:lib2",
 };
 
 let seeding: Promise<void> | null = null;
 function ensureSeed() {
   if (!seeding) {
     seeding = (async () => {
-      if (await kv().get(K.mig)) return;
+      if (await kv().get(K.mig)) {
+        // Later additions: soundscapes
+        if (!(await kv().get(K.mig2))) {
+          const now = new Date().toISOString();
+          const have = await kv().hgetall<LibraryPiece>(K.pieces);
+          for (const p of seedPieces(now)) if (p.type === "soundscape" && !have[p.id]) await kv().hset(K.pieces, p.id, p);
+          await kv().set(K.mig2, now);
+        }
+        return;
+      }
       const now = new Date().toISOString();
       for (const p of seedPieces(now)) await kv().hset(K.pieces, p.id, p);
       if (!(await kv().get(K.settings))) await kv().set(K.settings, SEED_LIBRARY_SETTINGS);
       await kv().set(K.mig, now);
+      await kv().set(K.mig2, now);
     })().catch((e) => {
       seeding = null;
       throw e;

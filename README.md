@@ -146,6 +146,22 @@ Everyone gets a confirmation page with **Add to my calendar**, **Reschedule**, a
 
 Bookings don't read your Google Calendar. Subscribe to this calendar on your phone (below) so bookings show up there, and add personal commitments here to keep those times closed.
 
+## Wellness Library
+**Admin > Wellness Library** holds every piece: guided audio, soundscapes, journaling, coping tools, readings, and team tools.
+
+- **Edit or add pieces** without touching code. Each piece has its text, private reflection questions, and optional audio or video.
+- **Upload audio and video** right in the piece editor (see the one-time setup below). You can also paste a link instead.
+- **Members tab:** give founding members access. New people get a client portal and an access code; the library shows up as a card in their portal.
+- **Members' reflections are private.** Nothing in admin shows what anyone writes.
+
+### One-time setup for uploads (about 3 minutes)
+1. In Vercel, open your project and click **Storage**.
+2. Click **Create** (or **Create Database**), choose **Blob**, and set access to **Public**. Name it something like "library-media".
+3. Connect it to this project for **Production** and **Preview**.
+4. Vercel adds `BLOB_READ_WRITE_TOKEN` for you. Redeploy once (Deployments > the latest one > Redeploy).
+
+Uploaded files get a long random web address. Anyone with that exact link could open the file, so treat it like an unlisted video.
+
 ## Calendar
 **Admin > Calendar** shows your appointments, course class dates, client milestones and deliverable due dates, dated workshops from your Library, and payment plan due dates. Click a day to add an appointment. On a phone it switches to a list.
 

@@ -6,7 +6,7 @@ const q = (id: string, label: string, type: Prompt["type"] = "long", help = "", 
   id, type, label, help, columns: [], rows: [], blankRows: 0, options,
 });
 
-type Seed = Omit<LibraryPiece, "createdAt" | "updatedAt" | "adminNote" | "audioUrl" | "teamOnly" | "collection" | "status" | "prompts"> &
+type Seed = Omit<LibraryPiece, "createdAt" | "updatedAt" | "adminNote" | "audioUrl" | "videoUrl" | "teamOnly" | "collection" | "status" | "prompts"> &
   Partial<Pick<LibraryPiece, "adminNote" | "teamOnly" | "collection" | "status" | "prompts">>;
 
 const SEEDS: Seed[] = [
@@ -387,10 +387,32 @@ A check-in works when people see something change because of it. Once a month, s
   },
 ];
 
+const SOUND = (id: string, title: string, summary: string, order: number): Seed => ({
+  id, slug: id, title, type: "soundscape", minutes: 10, order, collection: "Soundscapes", status: "draft",
+  when: "Press play and let it run, or loop it for as long as you like",
+  summary,
+  adminNote: `Upload ${id}-library-10min.mp4 in the Video section, then publish.`,
+  body: `Find a comfortable place to sit or lie down. Headphones make it even better.
+
+You don't have to do anything here. Let the sound hold the space. If you'd like something to do with your breath, follow the slow change in the picture: breathe in as it brightens, and out as it settles.
+
+When a thought comes, notice it, and let it float by like water. Come back to the sound as many times as you need.`,
+});
+
+export const SOUNDSCAPES: Seed[] = [
+  SOUND("waterfall", "Waterfall", "Falling water with a soft, warm tone underneath. For focus, rest, or a reset in the middle of the day.", 101),
+  SOUND("rain", "Gentle Rain", "Steady rain on a quiet evening. For winding down after a long day.", 102),
+  SOUND("ocean", "Ocean Waves", "Slow waves that rise and fall about every ten seconds, a natural pace for breathing.", 103),
+  SOUND("stream", "Forest Stream", "A creek over the stones, bright and moving. For clearing your head.", 104),
+  SOUND("deep-rest", "Deep Rest", "A low, warm hum with a soft rumble. For sleep, or for the heaviest days.", 105),
+  SOUND("warm-tones", "Warm Tones", "Slow, steady meditative tones that swell and settle. For prayer, meditation, or quiet focus.", 106),
+];
+
 export function seedPieces(now: string): LibraryPiece[] {
-  return SEEDS.map((s) => ({
+  return [...SEEDS, ...SOUNDSCAPES].map((s) => ({
     adminNote: "",
     audioUrl: "",
+    videoUrl: "",
     teamOnly: false,
     collection: "Starter library",
     status: "published" as const,

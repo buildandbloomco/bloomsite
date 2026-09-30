@@ -5,7 +5,7 @@ import { slugify } from "./data";
 const str = (v: unknown, max = 5000) => String(v ?? "").slice(0, max);
 const num = (v: unknown, min: number, max: number) => Math.min(max, Math.max(min, Math.round(Number(v) || 0)));
 const arr = <T,>(v: unknown): T[] => (Array.isArray(v) ? (v as T[]) : []);
-const TYPES: PieceType[] = ["audio", "journal", "tool", "reading", "team"];
+const TYPES: PieceType[] = ["audio", "soundscape", "journal", "tool", "reading", "team"];
 const PTYPES: PromptType[] = ["short", "long", "checklist", "scale"];
 const rid = () => Math.random().toString(36).slice(2, 10);
 
@@ -30,6 +30,7 @@ export function sanitizePiece(b: Partial<LibraryPiece>, saved: LibraryPiece): Li
       options: arr<string>(p.options).map((x) => str(x, 200)).filter((x) => x.trim()).slice(0, 30),
     })).filter((p) => p.label.trim()),
     audioUrl: /^https?:\/\//.test(str(b.audioUrl)) ? str(b.audioUrl, 1000) : "",
+    videoUrl: /^https?:\/\//.test(str(b.videoUrl)) ? str(b.videoUrl, 1000) : "",
     adminNote: str(b.adminNote, 1000),
     teamOnly: !!b.teamOnly,
     collection: str(b.collection, 120) || "Starter library",
