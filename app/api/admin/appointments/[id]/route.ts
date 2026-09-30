@@ -1,4 +1,5 @@
-import { deleteAppointment, getAppointment, getEnrollment, saveAppointment, saveEnrollment } from "@/lib/courses";
+import { getAppointment, saveAppointment } from "@/lib/courses";
+import { cancelAppointment } from "@/lib/booking-server";
 import { error, json, requireAdmin } from "@/lib/http";
 import { cleanAppt } from "@/lib/appt";
 
@@ -22,13 +23,6 @@ export async function DELETE(_req: Request, ctx: Ctx) {
   const { id } = await ctx.params;
   const a = await getAppointment(id);
   if (!a) return json({ ok: true });
-  if (a.countsAsSession && a.enrollmentId) {
-    const e = await getEnrollment(a.enrollmentId);
-    if (e) {
-      e.sessionsUsed = Math.max(0, e.sessionsUsed - 1);
-      await saveEnrollment(e);
-    }
-  }
-  await deleteAppointment(id);
+  await cancelAppointment(a, `Consult on ${a.date} removed from the calendar.`);
   return json({ ok: true });
 }

@@ -1,3 +1,5 @@
+import "@/components/portal-nav.css";
+import { bookProps, fmtTime, longDate, nowET } from "@/lib/booking";
 import { redirect } from "next/navigation";
 import { currentClient } from "@/lib/auth";
 import { amountPaid, getCatalog, getClient, getSettings, toPublic } from "@/lib/data";
@@ -10,7 +12,7 @@ import Ribbon from "@/components/Ribbon";
 import YourWork, { hasWork } from "@/components/YourWork";
 import ConsultSummary from "@/components/ConsultSummary";
 import MyCourses from "@/components/course/MyCourses";
-import { getCourse, listEnrollments } from "@/lib/courses";
+import { getCourse, listAppointments, listEnrollments } from "@/lib/courses";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Your Portal", robots: { index: false, follow: false } };
@@ -44,7 +46,9 @@ export default async function Portal({
     }
   }
 
-  const [catalog, settings] = await Promise.all([getCatalog(), getSettings()]);
+  const [catalog, settings, allAppts] = await Promise.all([getCatalog(), getSettings(), listAppointments()]);
+  const today = nowET().date;
+  const myAppts = allAppts.filter((x) => x.clientId === client.id && !x.enrollmentId && x.date >= today).sort((x, y) => (x.date + x.start).localeCompare(y.date + y.start)).slice(0, 5);
   const pub = toPublic(client);
   const services = catalog.services;
   const included = client.package.serviceIds
@@ -96,7 +100,10 @@ export default async function Portal({
               <a key={href} href={href}>{label}</a>
             ))}
           </nav>
-          <SignOut />
+          <div className="row" style={{ gap: 10, flexWrap: "nowrap" }}>
+            <a href="/" className="btn btn-sm btn-ghost">Website</a>
+            <SignOut />
+          </div>
         </div>
       </header>
 
@@ -293,7 +300,29 @@ export default async function Portal({
                   Book a free consult, a kickoff, or a check-in. Pick a time that works for you.
                 </p>
               </div>
-              {settings.bookingEmbed ? (
+              {myAppts.length > 0 && (
+                <div className="card stack" style={{ gap: 10, marginBottom: 20 }}>
+                  <h3 style={{ margin: 0 }}>Your upcoming sessions</h3>
+                  {myAppts.map((x) => (
+                    <div key={x.id} className="row between" style={{ borderTop: "1px solid var(--line)", paddingTop: 10 }}>
+                      <span><strong>{longDate(x.date)}</strong>{x.start ? ` at ${fmtTime(x.start)} ET` : ""}</span>
+                      <span className="row" style={{ gap: 10 }}>
+                        {x.link && <a className="btn btn-sm btn-dark" href={x.link} target="_blank" rel="noopener noreferrer">Join</a>}
+                        {x.token && <a className="linkbtn small" href={`/book/confirmed?id=${x.id}&t=${x.token}`}>Details or reschedule</a>}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {settings.booking.enabled ? (
+                <div className="card row between" style={{ padding: 32 }}>
+                  <div className="stack" style={{ gap: 6, maxWidth: 560 }}>
+                    <h3>Book a session</h3>
+                    <p className="muted">A kickoff, working session, or check-in. See open times and book in a minute.</p>
+                  </div>
+                  <a className="btn btn-primary" href="/book?type=session">Pick a time</a>
+                </div>
+              ) : settings.bookingEmbed ? (
                 <iframe className="embed" src={settings.bookingUrl} title="Book a session" loading="lazy" />
               ) : (
                 <div className="card row between" style={{ padding: 32 }}>
@@ -301,7 +330,7 @@ export default async function Portal({
                     <h3>Free consult</h3>
                     <p className="muted">Opens our booking calendar in a new tab.</p>
                   </div>
-                  <a className="btn btn-primary" href={settings.bookingUrl} target="_blank" rel="noopener noreferrer">
+                  <a className="btn btn-primary" {...bookProps(settings)}>
                     Book a time
                   </a>
                 </div>

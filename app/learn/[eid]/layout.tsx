@@ -17,6 +17,7 @@ export default async function LearnLayout({ children, params }: { children: Reac
             <span className="learn-title">{course.title.toUpperCase()}</span>
           </Link>
           <div className="row">
+            <Link href="/" className="linkbtn small">Website</Link>
             <Link href={`/p/${client.slug}`} className="btn btn-sm btn-ghost">My portal</Link>
             <SignOut />
           </div>

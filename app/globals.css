@@ -111,7 +111,7 @@ p { margin: 0; }
 
 /* Forms */
 label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 0.95rem; }
-input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="url"], input[type="date"], select, textarea {
+input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="url"], input[type="date"], input[type="tel"], input[type="time"], select, textarea {
   width: 100%; font: 400 1.05rem var(--serif); color: var(--ink); background: var(--ivory);
   border: 1.5px solid var(--tan); border-radius: 10px; padding: 11px 14px; min-height: 48px;
 }
@@ -429,3 +429,4 @@ input:focus, select:focus, textarea:focus, .btn:focus-visible, a:focus-visible, 
 .up-item .cal-dot { margin-top: 5px; }
 .cal-agenda { display: none; }
 @media (max-width: 760px) { .cal-grid { display: none; } .cal-agenda { display: flex; flex-direction: column; gap: 6px; } }
+
