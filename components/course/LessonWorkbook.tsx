@@ -89,7 +89,7 @@ export default function LessonWorkbook({
   );
 }
 
-function Field({ p, value, onChange }: { p: Prompt; value: unknown; onChange: (v: unknown) => void }) {
+export function Field({ p, value, onChange }: { p: Prompt; value: unknown; onChange: (v: unknown) => void }) {
   const id = `q-${p.id}`;
   const help = p.help && (
     p.help.startsWith("Journal") ? <p className="eyebrow">{p.help}</p> : <p className="q-help">{p.help}</p>
