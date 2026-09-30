@@ -138,3 +138,4 @@ To open a course for enrollment: set **Status** to **Published**, check **List o
 
 ## Running it on your own computer (optional)
 Install Node.js 20 or newer, then in this folder run `npm install` and then `npm run dev`. Open http://localhost:3000. The admin password on your computer is `bloom-admin`. Without Redis, data is saved to a `.data` folder.
+
