@@ -1,4 +1,5 @@
 "use client";
+import "./booking.css";
 
 import { useMemo, useState } from "react";
 import { fmtTime, longDate, type DaySlots } from "@/lib/booking";

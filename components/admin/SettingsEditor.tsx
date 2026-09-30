@@ -1,4 +1,5 @@
 "use client";
+import "./availability.css";
 
 import { useState } from "react";
 import type { BookingSettings, Settings } from "@/lib/types";
