@@ -128,6 +128,24 @@ To open a course for enrollment: set **Status** to **Published**, check **List o
 
 **Learner view.** Open any learner and click **View as learner** to see exactly what they see.
 
+## Booking
+Every **Book** button on the website, the client portal, and course pages opens your own booking page at `/book`. No outside booking tool is needed.
+
+**Set it up once:** go to **Admin > Settings > Booking & availability** and set:
+- your weekly hours (Eastern Time; add a second block for evening hours)
+- consult length, session length, the break between bookings, minimum notice, and how far ahead people can book
+- your Zoom or Google Meet link, so people get it the moment they book
+- days off
+
+**What happens when someone books:**
+- **Free consult (anyone):** it goes on your Calendar and into **Leads** with a "Consult" date. If they already sent an inquiry, the booking attaches to that same lead.
+- **Course learners:** they click **Book a time** on their course. It uses their package's session length and counts toward their included sessions. When they run out, the page tells them to reach out.
+- **Clients:** **Pick a time** in their portal books a session tied to their client record. Their upcoming sessions show in the portal.
+
+Everyone gets a confirmation page with **Add to my calendar**, **Reschedule**, and **Cancel**. Cancelling frees the time and gives a learner their session back. Anything with a time on your Calendar (and course class dates) blocks those times automatically, so add other commitments to your Calendar. For a whole day off, add an appointment with Type **Other** and check **Day off**, or use Days off in Settings.
+
+Bookings don't read your Google Calendar. Subscribe to this calendar on your phone (below) so bookings show up there, and add personal commitments here to keep those times closed.
+
 ## Calendar
 **Admin > Calendar** shows your appointments, course class dates, client milestones and deliverable due dates, dated workshops from your Library, and payment plan due dates. Click a day to add an appointment. On a phone it switches to a list.
 
@@ -138,4 +156,3 @@ To open a course for enrollment: set **Status** to **Published**, check **List o
 
 ## Running it on your own computer (optional)
 Install Node.js 20 or newer, then in this folder run `npm install` and then `npm run dev`. Open http://localhost:3000. The admin password on your computer is `bloom-admin`. Without Redis, data is saved to a `.data` folder.
-

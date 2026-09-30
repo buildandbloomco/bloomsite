@@ -1,6 +1,6 @@
 import { calendarItems } from "@/lib/calendar";
 import { getCourse, listEnrollments } from "@/lib/courses";
-import { listClients } from "@/lib/data";
+import { getSettings, listClients } from "@/lib/data";
 import { calendarFeedKey } from "@/lib/crypto";
 import { siteOrigin } from "@/lib/http";
 import CalendarView from "@/components/admin/CalendarView";
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default async function CalendarPage({ searchParams }: { searchParams: Promise<{ enrollment?: string; request?: string }> }) {
   const sp = await searchParams;
-  const [items, enrollments, clients, origin] = await Promise.all([calendarItems(), listEnrollments(), listClients(), siteOrigin()]);
+  const [items, enrollments, clients, origin, settings] = await Promise.all([calendarItems(), listEnrollments(), listClients(), siteOrigin(), getSettings()]);
   const active = await Promise.all(
     enrollments.filter((e) => e.status === "active" || e.status === "completed").map(async (e) => {
       const c = await getCourse(e.courseId);
@@ -30,6 +30,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
         clients={clients.filter((c) => c.status !== "archived").map((c) => ({ id: c.id, name: c.name }))}
         requests={requests}
         prefill={{ enrollmentId: sp.enrollment ?? "", requestId: sp.request ?? "" }}
+        bookingOn={settings.booking.enabled}
         feedUrl={`${origin}/api/calendar/feed?key=${calendarFeedKey()}`}
       />
     </div>

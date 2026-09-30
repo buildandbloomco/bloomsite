@@ -1,3 +1,4 @@
+import { bookHref } from "@/lib/booking";
 import { getSettings } from "@/lib/data";
 import Ribbon from "@/components/Ribbon";
 import SiteHeader from "@/components/site/SiteHeader";
@@ -10,7 +11,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <>
       <Ribbon />
-      <SiteHeader bookingUrl={s.bookingUrl} />
+      <SiteHeader bookingUrl={bookHref(s)} />
       <main>{children}</main>
       <SiteFooter s={s} />
     </>

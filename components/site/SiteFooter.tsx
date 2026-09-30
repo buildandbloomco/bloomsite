@@ -1,3 +1,4 @@
+import { bookProps } from "@/lib/booking";
 import Link from "next/link";
 import type { Settings } from "@/lib/types";
 
@@ -20,7 +21,7 @@ export default function SiteFooter({ s }: { s: Settings }) {
             <Link href="/masterclass">Sustained Healer Masterclass</Link>
             <Link href="/courses">Courses</Link>
             <Link href="/workshops">Workshops & events</Link>
-            <a href={s.bookingUrl} target="_blank" rel="noopener noreferrer">Book a free consult</a>
+            <a {...bookProps(s)}>Book a free consult</a>
           </div>
           <div className="stack" style={{ gap: 6 }}>
             <p className="h">Collective</p>

@@ -1,4 +1,5 @@
 "use client";
+import { isExternal } from "@/lib/booking";
 
 import { useState } from "react";
 import { money } from "@/lib/format";
@@ -31,8 +32,17 @@ export default function LearnActions({ eid, mode, amount = 0, bookingUrl = "" }:
     <div className="stack" style={{ gap: 8 }}>
       {!open ? (
         <div className="row">
-          <button type="button" className="btn btn-sm btn-dark" onClick={() => setOpen(true)}>Request a session</button>
-          {bookingUrl && <a className="btn btn-sm btn-ghost" href={bookingUrl} target="_blank" rel="noopener noreferrer">Book online</a>}
+          {bookingUrl && !isExternal(bookingUrl) ? (
+            <>
+              <a className="btn btn-sm btn-dark" href={bookingUrl}>Book a time</a>
+              <button type="button" className="linkbtn small" onClick={() => setOpen(true)}>None of the times work?</button>
+            </>
+          ) : (
+            <>
+              <button type="button" className="btn btn-sm btn-dark" onClick={() => setOpen(true)}>Request a session</button>
+              {bookingUrl && <a className="btn btn-sm btn-ghost" href={bookingUrl} target="_blank" rel="noopener noreferrer">Book online</a>}
+            </>
+          )}
         </div>
       ) : (
         <form className="stack" style={{ gap: 8 }} onSubmit={async (x) => {

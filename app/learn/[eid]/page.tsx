@@ -1,3 +1,4 @@
+import { bookHref } from "@/lib/booking";
 import Link from "next/link";
 import { learnerContext } from "@/lib/learn";
 import { listAppointments, saveEnrollment } from "@/lib/courses";
@@ -166,7 +167,7 @@ export default async function CourseHome({ params, searchParams }: { params: Pro
               <div className="panel">
                 <h3>Your 1:1 sessions</h3>
                 <p className="small">{sessionsLeft} of {e.sessionsIncluded} remaining{pkg?.sessionMinutes ? ` · ${pkg.sessionMinutes} minutes each` : ""}</p>
-                {sessionsLeft > 0 && <LearnActions eid={e.id} mode="request" bookingUrl={settings.bookingUrl} />}
+                {sessionsLeft > 0 && <LearnActions eid={e.id} mode="request" bookingUrl={bookHref(settings, `?e=${e.id}`)} />}
               </div>
             )}
             {upcoming.length > 0 && (

@@ -51,6 +51,31 @@ export interface Settings {
   bookingEmbed: boolean;
   beforeYouBook: string[];
   defaultNextSteps: string[];
+  booking: BookingSettings;
+}
+
+/** Built-in booking. All times are Eastern Time (America/New_York). */
+export interface BookingSettings {
+  /** When on, every Book button uses your own booking page instead of bookingUrl */
+  enabled: boolean;
+  /** Weekly hours. day: 0 = Sunday ... 6 = Saturday. Several blocks per day are allowed. */
+  hours: { day: number; start: string; end: string }[];
+  consultMinutes: number;
+  sessionMinutes: number;
+  bufferMinutes: number;
+  /** How far ahead people must book */
+  noticeHours: number;
+  /** How far out people can book */
+  daysAhead: number;
+  /** Most bookings per day (0 = no limit) */
+  maxPerDay: number;
+  consultTitle: string;
+  consultIntro: string;
+  /** Default meeting link (Zoom, Google Meet) sent with every booking */
+  meetingLink: string;
+  location: string;
+  /** Dates you are unavailable (YYYY-MM-DD) */
+  blockedDates: string[];
 }
 
 export interface Catalog {
@@ -210,6 +235,8 @@ export interface Lead {
   } | null;
   notes: string;
   clientId: string | null;
+  /** Set when they book a consult on your booking page */
+  consult?: { date: string; start: string; apptId: string } | null;
 }
 
 export type ClientStatus = "draft" | "sent" | "active" | "completed" | "archived";

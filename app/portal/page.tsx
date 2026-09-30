@@ -1,3 +1,4 @@
+import { bookProps } from "@/lib/booking";
 import { redirect } from "next/navigation";
 import { currentClient } from "@/lib/auth";
 import { getSettings } from "@/lib/data";
@@ -20,7 +21,7 @@ export default async function Home() {
           <img src="/logo.png" alt="" />
           <span>{s.brandName.toUpperCase()}</span>
         </a>
-        <a className="btn btn-ghost btn-sm" href={s.bookingUrl} target="_blank" rel="noopener noreferrer">
+        <a className="btn btn-ghost btn-sm" {...bookProps(s)}>
           Book a free consult
         </a>
       </header>
@@ -42,7 +43,7 @@ export default async function Home() {
             </div>
             <GateForm />
             <p className="small muted">
-              New here? <a href={s.bookingUrl} target="_blank" rel="noopener noreferrer">Book a free consult</a> and
+              New here? <a {...bookProps(s)}>Book a free consult</a> and
               we will talk through what you are building. No code? Email{" "}
               <a href={`mailto:${s.email}`}>{s.email}</a>
               {s.phone ? ` or call ${s.phone}` : ""}.

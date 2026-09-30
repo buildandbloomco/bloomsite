@@ -1,3 +1,4 @@
+import { bookProps } from "@/lib/booking";
 import Link from "next/link";
 import { getCatalog, getSettings } from "@/lib/data";
 import FounderArch from "@/components/site/FounderArch";
@@ -22,7 +23,7 @@ export default async function Home() {
               mental health practices, helping organizations, Black entrepreneurs, and community organizations can do their best work and last.
             </p>
             <div className="row cta" style={{ marginTop: 32 }}>
-              <a className="btn btn-primary" href={s.bookingUrl} target="_blank" rel="noopener noreferrer">Book a free consult</a>
+              <a className="btn btn-primary" {...bookProps(s)}>Book a free consult</a>
               <Link className="btn btn-ghost" href="/masterclass">Explore the Masterclass</Link>
             </div>
           </div>
@@ -183,7 +184,7 @@ export default async function Home() {
           <h2>Let&rsquo;s build something that lasts</h2>
           <p>Start with a free consult. We&rsquo;ll talk through what you&rsquo;re carrying, what you&rsquo;re building, and whether we&rsquo;re the right fit.</p>
           <div className="row">
-            <a className="btn btn-gold" href={s.bookingUrl} target="_blank" rel="noopener noreferrer">Book a free consult</a>
+            <a className="btn btn-gold" {...bookProps(s)}>Book a free consult</a>
             <Link className="btn btn-ghost-light" href="/contact">Send an inquiry</Link>
           </div>
         </div>

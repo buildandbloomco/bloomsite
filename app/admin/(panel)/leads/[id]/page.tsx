@@ -1,3 +1,4 @@
+import { fmtTime, longDate } from "@/lib/booking";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getLead } from "@/lib/leads";
@@ -31,6 +32,15 @@ export default async function LeadPage({ params }: { params: Promise<{ id: strin
         <h2>{lead.name}</h2>
         {lead.organization && <p className="muted">{[lead.role, lead.organization].filter(Boolean).join(", ")}</p>}
       </div>
+      {lead.consult && (
+        <div className="panel row between" style={{ borderTopColor: "var(--gold)" }}>
+          <div className="stack" style={{ gap: 2 }}>
+            <strong>Consult booked</strong>
+            <span className="small">{longDate(lead.consult.date)} at {fmtTime(lead.consult.start)} ET</span>
+          </div>
+          <Link className="btn btn-sm btn-ghost" href="/admin/calendar">Open calendar</Link>
+        </div>
+      )}
       <div className="editor-grid">
         <div className="stack" style={{ gap: 20 }}>
           <section className="panel">

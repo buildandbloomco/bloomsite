@@ -1,3 +1,4 @@
+import { bookProps } from "@/lib/booking";
 import Link from "next/link";
 import { getCatalog, getSettings } from "@/lib/data";
 import { priceLabel } from "@/lib/format";
@@ -70,7 +71,7 @@ export default async function Masterclass() {
             </p>
             <div className="row" style={{ marginTop: 28 }}>
               <Link className="btn btn-primary" href="/contact?lane=orgs&interest=masterclass">Request the framework</Link>
-              <a className="btn btn-ghost" href={s.bookingUrl} target="_blank" rel="noopener noreferrer">Book a consult</a>
+              <a className="btn btn-ghost" {...bookProps(s)}>Book a consult</a>
             </div>
           </div>
           <div className="boxed stack" style={{ gap: 12 }}>
@@ -144,7 +145,7 @@ export default async function Masterclass() {
           <p>Tell us a little about your practice and we will send the full framework and a proposal sized to your team.</p>
           <div className="row">
             <Link className="btn btn-gold" href="/contact?lane=orgs&interest=masterclass">Request the framework</Link>
-            <a className="btn btn-ghost-light" href={s.bookingUrl} target="_blank" rel="noopener noreferrer">Book a consult</a>
+            <a className="btn btn-ghost-light" {...bookProps(s)}>Book a consult</a>
           </div>
         </div>
       </section>

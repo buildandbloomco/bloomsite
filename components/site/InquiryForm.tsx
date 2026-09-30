@@ -1,4 +1,5 @@
 "use client";
+import { isExternal } from "@/lib/booking";
 
 import { useState } from "react";
 import { firstName } from "@/lib/format";
@@ -59,7 +60,7 @@ export default function InquiryForm({
         <p className="eyebrow">Received</p>
         <h2 style={{ textTransform: "none", letterSpacing: 0 }}>Thank you, {firstName(f.name) || "friend"}.</h2>
         <p>We will review what you shared and be in touch within two business days. If you would like to talk sooner, grab a time on the calendar.</p>
-        <div><a className="btn btn-primary" href={bookingUrl} target="_blank" rel="noopener noreferrer">Book a free consult</a></div>
+        <div><a className="btn btn-primary" {...(isExternal(bookingUrl) ? { href: bookingUrl, target: "_blank", rel: "noopener noreferrer" } : { href: `${bookingUrl}?name=${encodeURIComponent(f.name)}&email=${encodeURIComponent(f.email)}&lane=${lane}` })}>Book a free consult</a></div>
       </div>
     );
   }

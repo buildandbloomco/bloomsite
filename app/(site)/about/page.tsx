@@ -1,3 +1,4 @@
+import { bookProps } from "@/lib/booking";
 import Link from "next/link";
 import { getSettings } from "@/lib/data";
 import FounderArch from "@/components/site/FounderArch";
@@ -101,7 +102,7 @@ export default async function About() {
           <h2>Start with a conversation</h2>
           <p>No pitch, no pressure. Just a clear look at what would help.</p>
           <div className="row">
-            <a className="btn btn-gold" href={s.bookingUrl} target="_blank" rel="noopener noreferrer">Book a free consult</a>
+            <a className="btn btn-gold" {...bookProps(s)}>Book a free consult</a>
             <Link className="btn btn-ghost-light" href="/services">See services</Link>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { bookHref, bookProps } from "@/lib/booking";
 import { getCatalog, getSettings } from "@/lib/data";
 import InquiryForm from "@/components/site/InquiryForm";
 
@@ -27,14 +28,14 @@ export default async function Contact({ searchParams }: { searchParams: Promise<
           <span className="rule" aria-hidden="true" />
           <p className="lede">Tell us a little about your team or business. Prefer to just talk? Book a free consult instead.</p>
           <div className="row" style={{ marginTop: 24 }}>
-            <a className="btn btn-dark" href={s.bookingUrl} target="_blank" rel="noopener noreferrer">Book a free consult</a>
+            <a className="btn btn-dark" {...bookProps(s)}>Book a free consult</a>
             {s.email && <a className="btn btn-ghost" href={`mailto:${s.email}`}>Email {s.email}</a>}
           </div>
         </div>
       </section>
       <section className="section">
         <div className="wrap narrow">
-          <InquiryForm services={services} initialLane={lane} initialInterest={interest} bookingUrl={s.bookingUrl} />
+          <InquiryForm services={services} initialLane={lane} initialInterest={interest} bookingUrl={bookHref(s)} />
         </div>
       </section>
     </>

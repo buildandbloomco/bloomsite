@@ -188,4 +188,14 @@ export interface Appointment {
   /** Counts toward the learner's included 1:1 sessions */
   countsAsSession: boolean;
   createdAt: string;
+  /** Filled in when someone books themselves from the booking page */
+  bookedOnline?: boolean;
+  guestName?: string;
+  guestEmail?: string;
+  guestPhone?: string;
+  leadId?: string;
+  /** Secret for the booker's confirmation and cancel link */
+  token?: string;
+  /** Blocks booking even without a time (use for time off) */
+  blocksDay?: boolean;
 }

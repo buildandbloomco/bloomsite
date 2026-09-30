@@ -1,3 +1,4 @@
+import { bookProps } from "@/lib/booking";
 import Link from "next/link";
 import { getCatalog, getSettings } from "@/lib/data";
 import { priceLabel } from "@/lib/format";
@@ -100,7 +101,7 @@ export default async function Services() {
           <h2>Not sure where to start?</h2>
           <p>That is what the free consult is for. We will help you figure out what would make the biggest difference first.</p>
           <div className="row">
-            <a className="btn btn-gold" href={s.bookingUrl} target="_blank" rel="noopener noreferrer">Book a free consult</a>
+            <a className="btn btn-gold" {...bookProps(s)}>Book a free consult</a>
             <Link className="btn btn-ghost-light" href="/contact">Send an inquiry</Link>
           </div>
         </div>

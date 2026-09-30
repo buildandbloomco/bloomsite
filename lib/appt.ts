@@ -16,6 +16,7 @@ export function cleanAppt(b: Partial<Appointment>, base: Appointment): Appointme
     link: /^https?:\/\//.test(str(b.link)) ? str(b.link, 1000) : "",
     notes: str(b.notes, 3000),
     countsAsSession: !!b.countsAsSession && !!str(b.enrollmentId),
+    blocksDay: !!b.blocksDay,
   };
 }
 

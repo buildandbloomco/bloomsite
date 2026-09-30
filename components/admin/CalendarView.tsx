@@ -30,16 +30,17 @@ interface Props {
   clients: { id: string; name: string }[];
   requests: { id: string; times: string; note: string; enrollmentId: string; name: string }[];
   prefill: { enrollmentId: string; requestId: string };
+  bookingOn: boolean;
   feedUrl: string;
 }
 
-export default function CalendarView({ items: initial, enrollments, clients, requests: initialRequests, prefill, feedUrl }: Props) {
+export default function CalendarView({ items: initial, enrollments, clients, requests: initialRequests, prefill, feedUrl, bookingOn }: Props) {
   const [requests, setRequests] = useState(initialRequests);
   const today = iso(new Date());
   const [items, setItems] = useState(initial);
   const [month, setMonth] = useState(() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), 1); });
   const [selected, setSelected] = useState<CalItem | null>(null);
-  const blank = { title: "", date: today, start: "10:00", end: "11:00", kind: "session", clientId: "", enrollmentId: "", location: "", link: "", notes: "", countsAsSession: true, requestId: "" };
+  const blank = { title: "", date: today, start: "10:00", end: "11:00", kind: "session", clientId: "", enrollmentId: "", location: "", link: "", notes: "", countsAsSession: true, requestId: "", blocksDay: false };
   const [form, setForm] = useState(() => {
     if (!prefill.enrollmentId) return null;
     const req = requests.find((r) => r.id === prefill.requestId);
@@ -151,6 +152,11 @@ export default function CalendarView({ items: initial, enrollments, clients, req
                 <option value="other">Other</option>
               </select>
             </label>
+            {form.kind === "other" && (
+              <label className="checks" style={{ flexDirection: "row", gap: 8, fontWeight: 400 }}>
+                <input type="checkbox" checked={form.blocksDay} onChange={() => setForm({ ...form, blocksDay: !form.blocksDay })} /> Day off: nobody can book this day
+              </label>
+            )}
             <label>
               Course learner <span className="hint">optional</span>
               <select value={form.enrollmentId} onChange={(e) => setForm({ ...form, enrollmentId: e.target.value, countsAsSession: !!e.target.value })}>
@@ -210,6 +216,15 @@ export default function CalendarView({ items: initial, enrollments, clients, req
             ))}
           </section>
         )}
+
+        <section className="panel">
+          <h3>Online booking</h3>
+          <p className="small muted" style={{ margin: 0 }}>{bookingOn ? "People book open times on your booking page. Bookings land here automatically." : "Built-in booking is off. Your Book buttons use your outside link."}</p>
+          <div className="row">
+            <a className="btn btn-sm btn-ghost" href="/admin/settings#booking">Set my hours</a>
+            {bookingOn && <a className="linkbtn small" href="/book" target="_blank" rel="noopener noreferrer">View booking page ↗</a>}
+          </div>
+        </section>
 
         <section className="panel">
           <h3>Coming up</h3>

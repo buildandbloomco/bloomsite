@@ -22,7 +22,7 @@ export async function calendarItems(): Promise<CalItem[]> {
   const items: CalItem[] = [];
   const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
   for (const a of appts) {
-    items.push({ id: `a-${a.id}`, date: a.date, start: a.start, end: a.end, title: a.title, kind: a.kind, detail: [clientName(a.clientId), a.location, a.notes].filter(Boolean).join(" · "), href: "", apptId: a.id, link: a.link });
+    items.push({ id: `a-${a.id}`, date: a.date, start: a.start, end: a.end, title: a.title, kind: a.kind, detail: [a.bookedOnline ? "Booked online" : "", clientName(a.clientId) || a.guestName || "", a.location, a.notes].filter(Boolean).join("\n"), href: a.leadId ? `/admin/leads/${a.leadId}` : "", apptId: a.id, link: a.link });
   }
   for (const c of courses.filter((x) => x.status !== "archived")) {
     for (const s of c.liveSessions) {
